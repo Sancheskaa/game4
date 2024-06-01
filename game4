@@ -1,0 +1,47 @@
+import random
+
+def choose_word():
+    words = ['python', 'hangman', 'programming', 'developer', 'algorithm']
+    return random.choice(words)
+
+def display_word(word, guessed_letters):
+    return ' '.join([letter if letter in guessed_letters else '_' for letter in word])
+
+def hangman_game():
+    word_to_guess = choose_word()
+    guessed_letters = set()
+    attempts = 6
+
+    print("Вітаю в грі 'Вгадати слово'!")
+    print("Загадане слово:", display_word(word_to_guess, guessed_letters))
+
+    while attempts > 0:
+        guess = input("Введіть літеру: ").lower()
+
+        if len(guess) != 1 or not guess.isalpha():
+            print("Будь ласка, введіть одну літеру.")
+            continue
+
+        if guess in guessed_letters:
+            print("Ви вже вгадували цю літеру. Спробуйте ще раз.")
+            continue
+
+        guessed_letters.add(guess)
+
+        if guess in word_to_guess:
+            print("Вірно!")
+        else:
+            attempts -= 1
+            print(f"Невірно. У вас залишилось {attempts} спроб.")
+
+        current_display = display_word(word_to_guess, guessed_letters)
+        print("Загадане слово:", current_display)
+
+        if '_' not in current_display:
+            print(f"Вітаю! Ви вгадали слово '{word_to_guess}'!")
+            break
+    else:
+        print(f"На жаль, ви програли. Загадане слово було '{word_to_guess}'.")
+
+if __name__ == "__main__":
+    hangman_game()
